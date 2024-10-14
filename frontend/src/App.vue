@@ -1,8 +1,7 @@
 <script setup>
-
+import TaskList from './components/TheTaskList.vue';
 </script>
 
 <template>
-  <h1> начинаем кодить</h1>
+  <TaskList :apiUrl="'http://localhost:8000'" />
 </template>
-

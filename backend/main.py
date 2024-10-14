@@ -4,8 +4,20 @@ from sqlalchemy import select
 import models
 import database
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Настройка CORS
+app.add_middleware(
+    CORSMiddleware,  # type: ignore
+    # allow_origins=["*"],  # Разрешить все источники (но это работает только для HTTP запросов)
+    allow_origins=["https://sibplc-kis3.ru", "http://localhost:3000", "http://localhost:80", "http://localhost",
+                   'http://localhost:8000', 'http://localhost:5173'],
+    allow_credentials=True,
+    allow_methods=["*"],  # Разрешить все методы
+    allow_headers=["*"],  # Разрешить все заголовки
+)
 
 
 class TaskCreate(BaseModel):
