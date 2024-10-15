@@ -28,6 +28,9 @@ onMounted(fetchTasks);
 </script>
 
 <template>
+  <div class="bg-blue-500 text-white p-4">
+    Hello, Tailwind CSS in Vue!
+  </div>
   <div>
     <h2>Список задач</h2>
     <div v-if="error" class="error">{{ error }}</div>
