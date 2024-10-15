@@ -38,7 +38,10 @@ onMounted(fetchTasks);
       <div v-if="error" class="error">{{ error }}</div>
       <ul v-else-if="tasks.length">
         <li v-for="task in tasks" :key="task.id" class="text-green-400 text-2xl mb-5">
-          ID: {{ task.id }} - Name: {{ task.name }}
+          <div>
+            <h4 class="text-green-400 text-4xl mb-5">Name: {{ task.name }}</h4>
+            <p class="text-white-400 text-xl mb-5">ID: {{ task.id }}</p>
+          </div>
         </li>
       </ul>
       <p v-else class="text-red-400 text-xl mb-5">Задачи не найдены</p>

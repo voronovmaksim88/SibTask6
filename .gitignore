@@ -1,4 +1,4 @@
-backend/.env
+backend/.venv
 .idea
 
 /frontend/node_modules/
