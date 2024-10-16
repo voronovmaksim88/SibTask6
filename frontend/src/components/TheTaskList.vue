@@ -10,6 +10,7 @@ const props = defineProps({
 
 const tasks = ref([]);
 const error = ref('');
+const new_task_name = ref('');
 
 async function fetchTasks() {
   try {
@@ -26,6 +27,37 @@ async function fetchTasks() {
   }
 }
 
+async function addTask() {
+  if (!new_task_name.value.trim()) {
+    error.value = 'Имя задачи не может быть пустым';
+    return;
+  }
+
+  try {
+    const response = await fetch(`${props.apiUrl}/tasks/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: new_task_name.value }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      // noinspection ExceptionCaughtLocallyJS
+      throw new Error(errorData?.detail || `HTTP error! status: ${response.status}`);
+    }
+
+    const newTask = await response.json();
+    tasks.value.push(newTask);
+    new_task_name.value = ''; // Очистка поля ввода
+    error.value = ''; // Сброс ошибки, если она была
+  } catch (e) {
+    console.error('Error adding task:', e);
+    error.value = e.message || 'Произошла ошибка при добавлении задачи';
+  }
+}
+
 onMounted(fetchTasks);
 </script>
 
@@ -35,11 +67,12 @@ onMounted(fetchTasks);
       <h1 class="text-green-400 text-4xl mb-5">Список задач</h1>
       <div class="flex flex-row gap-2">
         <input
-            class="w-1/2 rounded-md"
-            type="text"
-            placeholder="новая задача"
+          class="w-1/2 rounded-md"
+          type="text"
+          placeholder="новая задача"
+          v-model="new_task_name"
         />
-        <button class="btn btn-p">Добавить</button>
+        <button @click="addTask" class="btn btn-p">Добавить</button>
       </div>
 
       <div v-if="error" class="text-red-500 text-xl mb-5">{{ error }}</div>
@@ -47,7 +80,7 @@ onMounted(fetchTasks);
         <li v-for="task in tasks" :key="task.id" class="mb-5">
           <div class="border border-gray-300 rounded-md p-3">
             <h4 class="text-green-400 text-2xl mb-1">{{ task.name }}</h4>
-            <p class="text-gray-400 text-xs">ID: {{ task.id }}</p>
+            <p class="text-gray-400 text-xs">id: {{ task.id }}</p>
           </div>
         </li>
       </ul>
