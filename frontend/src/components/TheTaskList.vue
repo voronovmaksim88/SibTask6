@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted} from 'vue';
 
 const props = defineProps({
   apiUrl: {
@@ -30,13 +30,18 @@ onMounted(fetchTasks);
 </script>
 
 <template>
-  <div class="bg-blue-500 text-white p-4">
-    Hello, Tailwind CSS in Vue!
-  </div>
-
   <div class="w-full min-h-screen flex flex-col items-center bg-gray-800">
-    <div class="flex flex-col w-full sm:w-1/2 md:w-2/3 lg:w-2/3 xl:w-5/12 space-y-4">
+    <div class="flex flex-col w-full sm:w-1/2 md:w-2/3 lg:w-2/3 xl:w-3/12 space-y-4">
       <h1 class="text-green-400 text-4xl mb-5">Список задач</h1>
+      <div class="flex flex-row gap-2">
+        <input
+            class="w-1/2 rounded-md"
+            type="text"
+            placeholder="новая задача"
+        />
+        <button class="btn btn-p">Добавить</button>
+      </div>
+
       <div v-if="error" class="text-red-500 text-xl mb-5">{{ error }}</div>
       <ul v-else-if="tasks.length">
         <li v-for="task in tasks" :key="task.id" class="mb-5">
