@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 import models
 import database
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -28,8 +28,7 @@ class TaskResponse(BaseModel):
     id: int
     name: str
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 @app.post("/tasks/", response_model=TaskResponse)

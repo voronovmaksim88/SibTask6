@@ -38,7 +38,7 @@ onMounted(fetchTasks);
       <div v-if="error" class="error">{{ error }}</div>
       <ul v-else-if="tasks.length">
         <li v-for="task in tasks" :key="task.id" class="text-green-400 text-2xl mb-5">
-          <div>
+          <div class="border border-gray-300 rounded-md p-3">
             <h4 class="text-green-400 text-2xl mb-1">{{ task.name }}</h4>
             <p class="text-white-400 text-xs">ID: {{ task.id }}</p>
           </div>
