@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
 
 const props = defineProps({
   apiUrl: {
@@ -11,6 +11,7 @@ const props = defineProps({
 const tasks = ref([]);
 const error = ref('');
 const new_task_name = ref('');
+const selectedTaskId = ref(null);
 
 async function fetchTasks() {
   try {
@@ -50,12 +51,16 @@ async function addTask() {
 
     const newTask = await response.json();
     tasks.value.push(newTask);
-    new_task_name.value = ''; // Очистка поля ввода
-    error.value = ''; // Сброс ошибки, если она была
+    new_task_name.value = '';
+    error.value = '';
   } catch (e) {
     console.error('Error adding task:', e);
     error.value = e.message || 'Произошла ошибка при добавлении задачи';
   }
+}
+
+function selectTask(taskId) {
+  selectedTaskId.value = selectedTaskId.value === taskId ? null : taskId;
 }
 
 onMounted(fetchTasks);
@@ -67,10 +72,10 @@ onMounted(fetchTasks);
       <h1 class="text-green-400 text-4xl mb-5">Список задач</h1>
       <div class="flex flex-row gap-2">
         <input
-          class="w-1/2 rounded-md"
-          type="text"
-          placeholder="новая задача"
-          v-model="new_task_name"
+            class="w-1/2 rounded-md"
+            type="text"
+            placeholder="новая задача"
+            v-model="new_task_name"
         />
         <button @click="addTask" class="btn btn-p">Добавить</button>
       </div>
@@ -78,9 +83,16 @@ onMounted(fetchTasks);
       <div v-if="error" class="text-red-500 text-xl mb-5">{{ error }}</div>
       <ul v-else-if="tasks.length">
         <li v-for="task in tasks" :key="task.id" class="mb-5">
-          <div class="border border-gray-300 rounded-md p-3">
+          <div
+              @click="selectTask(task.id)"
+              class="border rounded-md p-3 cursor-pointer transition-all duration-200"
+              :class="[
+              selectedTaskId === task.id ? 'border-green-400 border-4' : 'border-gray-300 border',
+              'hover:border-green-400'
+            ]"
+          >
             <h4 class="text-green-400 text-2xl mb-1">{{ task.name }}</h4>
-            <p class="text-gray-400 text-xs">id: {{ task.id }}</p>
+            <p v-if="selectedTaskId === task.id" class="text-gray-400 text-xs">id: {{ task.id }}</p>
           </div>
         </li>
       </ul>
