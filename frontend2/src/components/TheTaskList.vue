@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import TrashIcon from '/src/icons/free-icon-font-trash-3917378.svg'
 
 const props = defineProps({
   apiUrl: {
@@ -90,7 +91,7 @@ onMounted(fetchTasks)
 
 <template>
   <div class="w-full min-h-screen flex flex-col items-center bg-gray-800">
-    <div class="flex flex-col w-full sm:w-1/2 md:w-2/3 lg:w-2/3 xl:w-6/12 space-y-4">
+    <div class="flex flex-col w-full sm:w-2/2 md:w-10/12 lg:w-3/3 xl:w-12/12 space-y-4">
       <h1 class="text-green-400 text-4xl mb-5">Список задач</h1>
       <div class="flex items-center justify-between">
         <input
@@ -113,10 +114,12 @@ onMounted(fetchTasks)
               'hover:border-green-400'
             ]"
           >
-            <h4 class="text-green-400 text-2xl mb-1">{{ task.name }}</h4>
+            <h4 class="flex items-left text-green-400 text-2xl mb-1" >{{ task.name }}</h4>
             <div v-if="selectedTaskId === task.id" class="flex items-center justify-between">
               <p  class="text-gray-400 text-xs">id: {{ task.id }}</p>
-              <button @click="deleteTask(task.id)" class="btn btn-p">Удалить</button>
+              <button @click="deleteTask(task.id)" class="p-2 hover:bg-red-300 rounded-md transition-colors duration-200">
+                <img :src="TrashIcon" alt="Delete" class="w-6 h-6" />
+              </button>
             </div>
           </div>
         </li>
