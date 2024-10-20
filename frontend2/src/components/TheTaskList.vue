@@ -90,7 +90,7 @@ onMounted(fetchTasks)
 
 <template>
   <div class="w-full min-h-screen flex flex-col items-center bg-gray-800">
-    <div class="flex flex-col w-full sm:w-1/2 md:w-2/3 lg:w-2/3 xl:w-3/12 space-y-4">
+    <div class="flex flex-col w-full sm:w-1/2 md:w-2/3 lg:w-2/3 xl:w-6/12 space-y-4">
       <h1 class="text-green-400 text-4xl mb-5">Список задач</h1>
       <div class="flex items-center justify-between">
         <input
