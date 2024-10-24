@@ -7,6 +7,10 @@ import database
 from pydantic import BaseModel, ConfigDict
 from fastapi.middleware.cors import CORSMiddleware
 
+# для аутентификации
+from fastapi import APIRouter
+from demo_auth.views import router as demo_auth_router
+
 app = FastAPI()
 
 # Настройка CORS
@@ -25,6 +29,11 @@ app.add_middleware(
     allow_methods=["*"],  # Разрешить все методы
     allow_headers=["*"],  # Разрешить все заголовки
 )
+
+# подключаем аутентификацию
+router = APIRouter()
+router.include_router(router=demo_auth_router)
+app.include_router(demo_auth_router)
 
 
 class TaskCreate(BaseModel):
